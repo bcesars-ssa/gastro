@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Machine Learning Colectomy Prediction Model for UC and PSC Patients</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            color: #333;
+            font-size: 16px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            color: #007bff;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        function calculateRisk() {
+            var duration_uc_greater_11_years = document.getElementById("duration_uc_greater_11_years").value === "yes" ? 1 : 0;
+            var hepatic_complications = document.getElementById("hepatic_complications").value === "yes" ? 1 : 0;
+            var extensive_colitis = document.getElementById("extensive_colitis").value === "yes" ? 1 : 0;
+            var sex = document.getElementById("sex").value === "M" ? 1 : 0;
+            var biological_therapy = document.getElementById("biological_therapy").value === "yes" ? 1 : 0;
+            var endoscopic_remission = document.getElementById("endoscopic_remission").value === "yes" ? 1 : 0;
+            var clinical_remission = document.getElementById("clinical_remission").value === "yes" ? 1 : 0;
+
+            var risk = 0.1;
+            risk += duration_uc_greater_11_years * 0.1;
+            risk += hepatic_complications * 0.1;
+            risk += extensive_colitis * 0.05;
+            risk += sex * 0.02;
+            risk -= biological_therapy * 0.05;
+            risk -= endoscopic_remission * 0.03;
+            risk -= clinical_remission * 0.02;
+
+            document.getElementById("result").innerText = "Predicted 5-Year Probability of Colectomy: " + (risk * 100).toFixed(2) + "%";
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Machine Learning Colectomy Prediction Model for UC and PSC Patients</h1>
+        <p>Authors: da Silva, BC et al.<br>Presented at: SEBRADII 2024</p>
+        <form onsubmit="event.preventDefault(); calculateRisk();">
+            <label for="duration_uc_greater_11_years">Duration of UC > 11 years:</label>
+            <select id="duration_uc_greater_11_years">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+
+            <label for="hepatic_complications">Hepatic complications:</label>
+            <select id="hepatic_complications">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+
+            <label for="extensive_colitis">Extensive colitis:</label>
+            <select id="extensive_colitis">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+
+            <label for="sex">Sex:</label>
+            <select id="sex">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+
+            <label for="biological_therapy">Use of biological therapy:</label>
+            <select id="biological_therapy">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+
+            <label for="endoscopic_remission">Endoscopic remission:</label>
+            <select id="endoscopic_remission">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+
+            <label for="clinical_remission">Clinical remission:</label>
+            <select id="clinical_remission">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+
+            <button type="submit">Calculate Risk</button>
+        </form>
+        <p id="result"></p>
+    </div>
+</body>
+</html>
